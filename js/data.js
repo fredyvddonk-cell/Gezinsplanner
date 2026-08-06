@@ -2,7 +2,7 @@
 =====================================
 Gezinsplanner
 Bestand : core.js
-Versie  : v1.37.0
+Versie  : v1.37.1
 Laatst gewijzigd : 06-08-2026
 
 Functie :
@@ -2076,7 +2076,6 @@ let state = loadSavedState();
 
 if (!Array.isArray(state.recipes)) state.recipes = [];
 if (!Array.isArray(state.shopping)) state.shopping = [];
-if (!Array.isArray(state.suppressedStockShopping)) state.suppressedStockShopping = [];
 
 state.shopping.forEach((item) => {
   if (item.quantity === undefined) item.quantity = 1;
@@ -2090,6 +2089,180 @@ if (!Array.isArray(state.hutsel)) state.hutsel = [];
 if (!Array.isArray(state.stock))
   state.stock = stockCatalog.map((x) => ({ ...x }));
 
+const shopping116 = [
+  {
+    id: 11601,
+    name: "2 × 500 g gemengd gehakt",
+    store: "Picnic",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "Spaghetti bolognese",
+    done: false,
+  },
+  {
+    id: 11602,
+    name: "2 × 250 g soffrittomix",
+    store: "Picnic",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "Spaghetti bolognese",
+    done: false,
+  },
+  {
+    id: 11603,
+    name: "1 × 250 ml rode wijn",
+    store: "Picnic",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "Spaghetti bolognese",
+    done: false,
+  },
+  {
+    id: 11604,
+    name: "1 × 200 g Grana Padano",
+    store: "Picnic",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "Spaghetti bolognese",
+    done: false,
+  },
+  {
+    id: 11605,
+    name: "1 × 130 g tomatenpuree",
+    store: "Picnic",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "Spaghetti bolognese",
+    done: false,
+  },
+  {
+    id: 11606,
+    name: "2 × 750 g kipdijfilet",
+    store: "Picnic",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "",
+    done: false,
+  },
+  {
+    id: 11607,
+    name: "2 × 400 g geraspte kaas",
+    store: "Picnic",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "",
+    done: false,
+  },
+  {
+    id: 11608,
+    name: "1 × paprikamix (3 stuks)",
+    store: "Picnic",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "",
+    done: false,
+  },
+  {
+    id: 11609,
+    name: "250 g witte champignons",
+    store: "Picnic",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "",
+    done: false,
+  },
+  {
+    id: 11610,
+    name: "2 × komkommer",
+    store: "Picnic",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "",
+    done: false,
+  },
+  {
+    id: 11611,
+    name: "1 × ijsbergsla",
+    store: "Picnic",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "",
+    done: false,
+  },
+  {
+    id: 11612,
+    name: "500 g tomaten",
+    store: "Picnic",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "",
+    done: false,
+  },
+  {
+    id: 11613,
+    name: "500 g rode druiven",
+    store: "Picnic",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "",
+    done: false,
+  },
+  {
+    id: 11614,
+    name: "1 × 1 kg krieltjes",
+    store: "Jumbo",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "Kip, krieltjes, spinazie en rodekool",
+    done: false,
+  },
+  {
+    id: 11615,
+    name: "1 × 750 g spinazie à la crème",
+    store: "Jumbo",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "Kip, krieltjes, spinazie en rodekool",
+    done: false,
+  },
+  {
+    id: 11616,
+    name: "1 × 450 g rode kool met appel",
+    store: "Jumbo",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "Kip, krieltjes, spinazie en rodekool",
+    done: false,
+  },
+  {
+    id: 11617,
+    name: "1 × 2 liter halfvolle melk",
+    store: "Jumbo",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "",
+    done: false,
+  },
+  {
+    id: 11618,
+    name: "1 × 1 liter milde halfvolle yoghurt",
+    store: "Jumbo",
+    priority: "Binnenkort",
+    person: "Fredy",
+    dish: "",
+    done: false,
+  },
+];
+shopping116.forEach((item) => {
+  const exists = state.shopping.some(
+    (x) =>
+      String(x.name || "")
+        .trim()
+        .toLowerCase() === item.name.trim().toLowerCase() &&
+      String(x.store || "") === item.store,
+  );
+  if (!exists) state.shopping.push({ ...item });
+});
 
 defaultRecipes.forEach((recipe) => {
   const exists = state.recipes.some(

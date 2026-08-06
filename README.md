@@ -1,4 +1,4 @@
-GEZINSPLANNER 1.37.0 - HERSTELDE ONTWIKKELBASIS
+GEZINSPLANNER 1.37.1 - ONTWIKKELVERSIE
 
 Dit is alleen de technische opsplitsing van de bestaande app.
 Er zijn in deze fase nog geen nieuwe functies toegevoegd.
@@ -18,7 +18,7 @@ BELANGRIJK
 Houd de hele map bij elkaar. Open steeds index.html.
 Verplaats index.html niet los van de mappen css en js.
 
-Versie 1.37 wordt ontwikkeld in kleine, testbare stappen. Huidige stap: 1.37.0 – ontwikkelbasis herstellen.
+Versie 1.37 wordt ontwikkeld in kleine, testbare stappen. Huidige stap: 1.37.1.
 
 Stap 1 - Basis
 Stap 2 - Plannen
