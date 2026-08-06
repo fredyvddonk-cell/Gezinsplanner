@@ -1,3 +1,27 @@
+# Versie 1.37.2-stap2 – 06-08-2026
+
+## Nieuw
+- Boodschappen worden automatisch gegroepeerd per winkel.
+- Winkels staan in de vaste volgorde Picnic, Jumbo, Albert Heijn, Lidl, Aldi en Overig.
+- Iedere winkelgroep toont het aantal producten.
+- Bestaande filters, afvinken, winkel wijzigen en Aankopen verwerken blijven behouden.
+
+## Gewijzigde bestanden
+- `index.html`
+- `css/style.css`
+- `js/shopping.js`
+- `CHANGELOG.md`
+- `README.md`
+
+## Testen
+- Producten van meerdere winkels toevoegen en groepering controleren.
+- Winkel wijzigen en controleren dat het product direct naar de juiste groep verhuist.
+- Winkel- en prioriteitsfilters testen.
+- Afvinken en Aankopen verwerken testen.
+- Mobiele weergave en browserconsole controleren.
+
+---
+
 # Versie 1.37.2-stap1 – 06-08-2026
 
 ## Nieuw

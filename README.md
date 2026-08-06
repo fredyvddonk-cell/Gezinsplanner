@@ -1,4 +1,4 @@
-GEZINSPLANNER 1.37.2-STAP1 - ONTWIKKELVERSIE
+GEZINSPLANNER 1.37.2-STAP2 - ONTWIKKELVERSIE
 
 Dit is alleen de technische opsplitsing van de bestaande app.
 Er zijn in deze fase nog geen nieuwe functies toegevoegd.
@@ -18,7 +18,7 @@ BELANGRIJK
 Houd de hele map bij elkaar. Open steeds index.html.
 Verplaats index.html niet los van de mappen css en js.
 
-Versie 1.37 wordt ontwikkeld in kleine, testbare stappen. Huidige stap: 1.37.2-stap1.
+Versie 1.37 wordt ontwikkeld in kleine, testbare stappen. Huidige stap: 1.37.2-stap2.
 
 Stap 1 - Basis
 Stap 2 - Plannen
@@ -29,3 +29,8 @@ Stap 4.2 - Kookchecklist
 
 WIJZIGING 1.37.1
 - Afgevinkte boodschappen worden verwerkt met de knop Aankopen verwerken.
+
+
+WIJZIGING 1.37.2-STAP2
+- Boodschappen worden gegroepeerd per winkel in een vaste winkelvolgorde.
+- Iedere winkelgroep toont het aantal producten.
