@@ -1,815 +1,819 @@
-    :root {
-      --bg: #f5f7f8;
-      --card: #ffffff;
-      --text: #1d2730;
-      --muted: #6e7a84;
-      --green: #0f8a5f;
-      --green2: #e4f5ed;
-      --line: #dfe6e9;
-      --orange: #f3a43b;
-      --blue: #4e89d8;
-      --purple: #8a67c7;
-      --red: #d85353;
-      --shadow: 0 8px 24px rgba(25, 40, 55, .08);
-    }
-
-    * {
-      box-sizing: border-box
-    }
-
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text)
-    }
-
-    button,
-    input,
-    select,
-    textarea {
-      font: inherit
-    }
-
-    .app {
-      max-width: 1080px;
-      margin: auto;
-      min-height: 100vh;
-      padding-bottom: 86px
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      background: rgba(255, 255, 255, .95);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--line);
-      padding: 16px 18px
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px
-    }
-
-    .logo {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: var(--green2);
-      display: grid;
-      place-items: center;
-      font-size: 23px
-    }
-
-    h1 {
-      font-size: 22px;
-      margin: 0
-    }
-
-    .sub {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 2px
-    }
-
-    .version {
-      font-size:12px;
-      color: var(--muted);
-      margin-top:4px;
-      font-weight:600;
-    }
-
-    main {
-      padding: 16px
-    }
-
-    .greeting {
-      margin: 2px 0 14px
-    }
-
-    .greeting h2 {
-      font-size: 22px;
-      margin: 0 0 4px
-    }
-
-    .greeting p {
-      color: var(--muted);
-      margin: 0
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      margin-bottom: 16px
-    }
-
-    .cardbtn {
-      border: 1px solid var(--line);
-      background: var(--card);
-      border-radius: 18px;
-      padding: 14px 10px;
-      min-height: 105px;
-      text-align: left;
-      box-shadow: var(--shadow);
-      cursor: pointer
-    }
-
-    .cardbtn .ico {
-      font-size: 27px
-    }
-
-    .cardbtn b {
-      display: block;
-      margin-top: 8px;
-      font-size: 14px
-    }
-
-    .cardbtn small {
-      color: var(--muted)
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 16px
-    }
-
-    .panel {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 16px;
-      box-shadow: var(--shadow)
-    }
-
-    .panel h3 {
-      margin: 0 0 12px;
-      font-size: 18px
-    }
-
-    .row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 0;
-      border-bottom: 1px solid #edf1f2
-    }
-
-    .row:last-child {
-      border-bottom: 0
-    }
-
-    .check {
-      width: 22px;
-      height: 22px
-    }
-
-    .grow {
-      flex: 1
-    }
-
-    .muted {
-      color: var(--muted);
-      font-size: 13px
-    }
-
-    .tag {
-      padding: 5px 9px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700
-    }
-
-    .op {
-      background: #fde4e4;
-      color: #a22727
-    }
-
-    .soon {
-      background: #fff0d9;
-      color: #9d6200
-    }
-
-    .wish {
-      background: #e8f0ff;
-      color: #2a5aa4
-    }
-
-    .letter {
-      width: 34px;
-      height: 34px;
-      border-radius: 11px;
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      color: #fff
-    }
-
-    .a {
-      background: var(--green)
-    }
-
-    .b {
-      background: var(--orange)
-    }
-
-    .c {
-      background: var(--blue)
-    }
-
-    .d {
-      background: var(--purple)
-    }
-
-    .e {
-      background: var(--red)
-    }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 12px
-    }
-
-    .btn {
-      border: 0;
-      border-radius: 12px;
-      padding: 10px 14px;
-      background: var(--green);
-      color: #fff;
-      font-weight: 700;
-      cursor: pointer
-    }
-
-    .btn.secondary {
-      background: #eef3f5;
-      color: var(--text)
-    }
-
-    .btn.danger {
-      background: #fde7e7;
-      color: #a42e2e
-    }
-
-    .nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #fff;
-      border-top: 1px solid var(--line);
-      display: flex;
-      justify-content: center;
-      z-index: 10
-    }
-
-    .navinner {
-      width: min(1080px, 100%);
-      display: grid;
-      grid-template-columns: repeat(5, 1fr)
-    }
-
-    .nav button {
-      border: 0;
-      background: #fff;
-      padding: 10px 4px 9px;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 12px
-    }
-
-    .nav button span {
-      display: block;
-      font-size: 22px;
-      margin-bottom: 2px
-    }
-
-    .nav button.active {
-      color: var(--green);
-      font-weight: 800
-    }
-
-    .view {
-      display: none
-    }
-
-    .view.active {
-      display: block
-    }
-
-    .toolbar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 12px
-    }
-
-    .toolbar input,
-    .toolbar select {
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px;
-      background: #fff
-    }
-
-    .toolbar input {
-      flex: 1;
-      min-width: 180px
-    }
-
-    .empty {
-      padding: 28px;
-      text-align: center;
-      color: var(--muted)
-    }
-
-    .modalback {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, .35);
-      display: none;
-      align-items: flex-end;
-      justify-content: center;
-      z-index: 30
-    }
-
-    .modalback.open {
-      display: flex
-    }
-
-    .modal {
-      background: white;
-      width: min(620px, 100%);
-      border-radius: 24px 24px 0 0;
-      padding: 18px;
-      max-height: 86vh;
-      overflow: auto
-    }
-
-    .modal h3 {
-      margin-top: 0
-    }
-
-    .formgrid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px
-    }
-
-    .formgrid .full {
-      grid-column: 1/-1
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 5px
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 11px;
-      background: #fff
-    }
-
-    textarea {
-      min-height: 90px;
-      resize: vertical
-    }
-
-    .itemmeta {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-top: 4px
-    }
-
-    .pill {
-      font-size: 12px;
-      background: #f0f4f5;
-      border-radius: 999px;
-      padding: 4px 8px;
-      color: #52606a
-    }
-
-    .topline {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px
-    }
-
-    .kpi {
-      font-size: 30px;
-      font-weight: 800
-    }
-
-    .note {
-      background: #fff9e8;
-      border: 1px solid #f3df9c;
-      padding: 12px;
-      border-radius: 14px;
-      margin-top: 12px
-    }
-
-    .backup-panel {
-      margin-top: 16px
-    }
-
-    .backup-status {
-      margin-top: 8px;
-      font-size: 13px;
-      color: var(--muted)
-    }
-
-    .stock-info {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-top: 5px
-    }
-
-    .stock-warning {
-      background: #fff0d9;
-      color: #945b00
-    }
-
-    .checkline {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      padding: 10px 0
-    }
-
-    .checkline input {
-      width: 22px;
-      height: 22px;
-      flex: 0 0 auto
-    }
-
-    .checkline label {
-      margin: 0;
-      color: var(--text);
-      font-size: 14px
-    }
-
-    .stock-card {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 14px;
-      margin-bottom: 10px
-    }
-
-    .stock-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: flex-start
-    }
-
-    .stock-title {
-      font-weight: 800;
-      font-size: 16px
-    }
-
-    .stock-sub {
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 3px
-    }
-
-    .stock-progress {
-      height: 9px;
-      background: #edf1f2;
-      border-radius: 999px;
-      overflow: hidden;
-      margin-top: 10px
-    }
-
-    .stock-progress>span {
-      display: block;
-      height: 100%;
-      background: var(--green)
-    }
-
-    .stock-low>span {
-      background: var(--orange)
-    }
-
-    .stock-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 10px
-    }
-
-    .stock-type {
-      font-size: 12px;
-      font-weight: 700;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: #eef3f5;
-      color: #52606a
-    }
-
-    .status-good {
-      background: #e4f5ed !important;
-      color: #08734d !important
-    }
-
-    .status-add {
-      background: #fff0d9 !important;
-      color: #945b00 !important
-    }
-
-    .recipe-form {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 16px;
-      box-shadow: var(--shadow);
-      margin-bottom: 16px
-    }
-
-    .recipe-card {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 14px;
-      margin-bottom: 10px
-    }
-
-    .recipe-view h4 {
-      margin: 16px 0 8px
-    }
-
-    .recipe-card.dragging {
-      opacity: .5;
-      border: 2px dashed var(--green)
-    }
-
-    .drag-handle {
-      font-size: 22px;
-      line-height: 1;
-      cursor: grab;
-      user-select: none;
-      touch-action: none;
-      padding: 10px 8px;
-      border-radius: 10px;
-      background: #eef3f5;
-      color: #52606a
-    }
-
-    .drag-handle:active {
-      cursor: grabbing;
-      background: var(--green2);
-      color: var(--green)
-    }
-
-    .cook-recipe {
-      margin-top: 16px;
-      border-top: 1px solid var(--line);
-      padding-top: 14px
-    }
-
-    .week-slots {
-      display: grid;
-      gap: 8px
-    }
-
-    .week-section-title {
-      margin: 8px 0 10px;
-      font-size: 16px
-    }
-
-    .week-section-title.next {
-      margin-top: 20px;
-      color: var(--muted)
-    }
-
-    .week-slot {
-      min-height: 68px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 9px;
-      background: #fff;
-      display: flex;
-      align-items: center;
-      gap: 10px
-    }
-
-    .week-slot.drag-over {
-      border: 2px dashed var(--green);
-      background: var(--green2)
-    }
-
-    .week-slot.empty-slot {
-      color: var(--muted)
-    }
-
-    .meal-drag {
-      cursor: grab;
-      touch-action: none;
-      user-select: none;
-      background: #eef3f5;
-      border-radius: 10px;
-      padding: 8px 7px;
-      font-size: 20px;
-      line-height: 1
-    }
-
-    .meal-drag:active {
-      cursor: grabbing;
-      background: var(--green2);
-      color: var(--green)
-    }
-
-    .meal-card.dragging {
-      opacity: .5
-    }
-
-    .meal-open {
-      cursor: pointer;
-      border-radius: 10px;
-      padding: 4px 6px
-    }
-
-    .meal-open:hover {
-      background: #f2f6f4
-    }
-
-    .cook-recipe h4 {
-      margin: 14px 0 8px
-    }
-
-    .cook-recipe ul {
-      margin: 0;
-      padding-left: 22px
-    }
-
-    .cook-recipe li {
-      margin: 6px 0
-    }
-
-    .cook-method {
-      white-space: pre-line;
-      line-height: 1.55;
-      background: #f7f9fa;
-      border-radius: 14px;
-      padding: 12px
-    }
-
-    .recipe-view ul {
-      margin: 0;
-      padding-left: 22px
-    }
-
-    .recipe-view li {
-      margin: 6px 0
-    }
-
-    .recipe-method {
-      white-space: pre-line;
-      line-height: 1.55;
-      background: #f7f9fa;
-      border-radius: 14px;
-      padding: 12px
-    }
-
-    .ingredient-line {
-      display: grid;
-      grid-template-columns: 1.3fr .7fr .8fr 1.4fr auto;
-      gap: 8px;
-      align-items: end;
-      margin-bottom: 8px
-    }
-
-    @media(max-width:700px) {
-      .ingredient-line {
-        grid-template-columns: 1fr 1fr
-      }
-
-      .ingredient-line .wide {
-        grid-column: 1/-1
-      }
-    }
-
-    .stock-category {
-      margin: 18px 0 8px;
-      font-size: 17px;
-      border-bottom: 2px solid var(--green2);
-      padding-bottom: 7px
-    }
-
-    .stock-toolbar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 12px
-    }
-
-    .stock-toolbar input,
-    .stock-toolbar select {
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px;
-      background: #fff
-    }
-
-    .stock-toolbar input {
-      flex: 1;
-      min-width: 180px
-    }
-
-    .category-card {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 14px;
-      margin-bottom: 12px
-    }
-
-    .category-card label {
-      margin-bottom: 6px
-    }
-
-    .category-name-input {
-      width: 100%;
-      font-size: 16px;
-      font-weight: 700
-    }
-
-    .category-meta {
-      color: var(--muted);
-      font-size: 13px;
-      margin: 8px 0 10px
-    }
-
-    .category-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap
-    }
-
-    .category-actions .btn {
-      flex: 1;
-      min-width: 120px
-    }
-
-    @media(max-width:520px) {
-      .category-actions {
-        display: grid;
-        grid-template-columns: 1fr 1fr
-      }
-
-      .category-actions .btn {
-        width: 100%;
-        min-width: 0
-      }
-    }
-
-    @media(max-width:800px) {
-      .cards {
-        grid-template-columns: repeat(2, 1fr)
-      }
-
-      .grid {
-        grid-template-columns: 1fr
-      }
-    }
-
-    @media(max-width:520px) {
-      .cards {
-        grid-template-columns: repeat(2, 1fr)
-      }
-
-      .formgrid {
-        grid-template-columns: 1fr
-      }
-
-      .formgrid .full {
-        grid-column: auto
-      }
-
-      main {
-        padding: 12px
-      }
-    }
-  
-
-
-/* Kookchecklist 1.36-stap4.2 */
+:root {
+  --bg: #f5f7f8;
+  --card: #ffffff;
+  --text: #1d2730;
+  --muted: #6e7a84;
+  --green: #0f8a5f;
+  --green2: #e4f5ed;
+  --line: #dfe6e9;
+  --orange: #f3a43b;
+  --blue: #4e89d8;
+  --purple: #8a67c7;
+  --red: #d85353;
+  --shadow: 0 8px 24px rgba(25, 40, 55, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.app {
+  max-width: 1080px;
+  margin: auto;
+  min-height: 100vh;
+  padding-bottom: 86px;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  padding: 16px 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: var(--green2);
+  display: grid;
+  place-items: center;
+  font-size: 23px;
+}
+
+h1 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.version {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+main {
+  padding: 16px;
+}
+
+.greeting {
+  margin: 2px 0 14px;
+}
+
+.greeting h2 {
+  font-size: 22px;
+  margin: 0 0 4px;
+}
+
+.greeting p {
+  color: var(--muted);
+  margin: 0;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.cardbtn {
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 18px;
+  padding: 14px 10px;
+  min-height: 105px;
+  text-align: left;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+.cardbtn .ico {
+  font-size: 27px;
+}
+
+.cardbtn b {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.cardbtn small {
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 16px;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.panel h3 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #edf1f2;
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.check {
+  width: 22px;
+  height: 22px;
+}
+
+.grow {
+  flex: 1;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.tag {
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.op {
+  background: #fde4e4;
+  color: #a22727;
+}
+
+.soon {
+  background: #fff0d9;
+  color: #9d6200;
+}
+
+.wish {
+  background: #e8f0ff;
+  color: #2a5aa4;
+}
+
+.letter {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: #fff;
+}
+
+.a {
+  background: var(--green);
+}
+
+.b {
+  background: var(--orange);
+}
+
+.c {
+  background: var(--blue);
+}
+
+.d {
+  background: var(--purple);
+}
+
+.e {
+  background: var(--red);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 14px;
+  background: var(--green);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn.secondary {
+  background: #eef3f5;
+  color: var(--text);
+}
+
+.btn.danger {
+  background: #fde7e7;
+  color: #a42e2e;
+}
+
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+.navinner {
+  width: min(1080px, 100%);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.nav button {
+  border: 0;
+  background: #fff;
+  padding: 10px 4px 9px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.nav button span {
+  display: block;
+  font-size: 22px;
+  margin-bottom: 2px;
+}
+
+.nav button.active {
+  color: var(--green);
+  font-weight: 800;
+}
+
+.view {
+  display: none;
+}
+
+.view.active {
+  display: block;
+}
+
+.toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.toolbar input,
+.toolbar select {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  background: #fff;
+}
+
+.toolbar input {
+  flex: 1;
+  min-width: 180px;
+}
+
+.empty {
+  padding: 28px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.modalback {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 30;
+}
+
+.modalback.open {
+  display: flex;
+}
+
+.modal {
+  background: white;
+  width: min(620px, 100%);
+  border-radius: 24px 24px 0 0;
+  padding: 18px;
+  max-height: 86vh;
+  overflow: auto;
+}
+
+.modal h3 {
+  margin-top: 0;
+}
+
+.formgrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.formgrid .full {
+  grid-column: 1/-1;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 11px;
+  background: #fff;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.itemmeta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.pill {
+  font-size: 12px;
+  background: #f0f4f5;
+  border-radius: 999px;
+  padding: 4px 8px;
+  color: #52606a;
+}
+
+.topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.kpi {
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.note {
+  background: #fff9e8;
+  border: 1px solid #f3df9c;
+  padding: 12px;
+  border-radius: 14px;
+  margin-top: 12px;
+}
+
+.backup-panel {
+  margin-top: 16px;
+}
+
+.backup-status {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.stock-info {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+
+.stock-warning {
+  background: #fff0d9;
+  color: #945b00;
+}
+
+.checkline {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 0;
+}
+
+.checkline input {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+}
+
+.checkline label {
+  margin: 0;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.stock-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.stock-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.stock-title {
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.stock-sub {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+.stock-progress {
+  height: 9px;
+  background: #edf1f2;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.stock-progress > span {
+  display: block;
+  height: 100%;
+  background: var(--green);
+}
+
+.stock-low > span {
+  background: var(--orange);
+}
+
+.stock-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.stock-type {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #eef3f5;
+  color: #52606a;
+}
+
+.status-good {
+  background: #e4f5ed !important;
+  color: #08734d !important;
+}
+
+.status-add {
+  background: #fff0d9 !important;
+  color: #945b00 !important;
+}
+
+.recipe-form {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+
+.recipe-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.recipe-view h4 {
+  margin: 16px 0 8px;
+}
+
+.recipe-card.dragging {
+  opacity: 0.5;
+  border: 2px dashed var(--green);
+}
+
+.drag-handle {
+  font-size: 22px;
+  line-height: 1;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  padding: 10px 8px;
+  border-radius: 10px;
+  background: #eef3f5;
+  color: #52606a;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+  background: var(--green2);
+  color: var(--green);
+}
+
+.cook-recipe {
+  margin-top: 16px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.week-slots {
+  display: grid;
+  gap: 8px;
+}
+
+.week-section-title {
+  margin: 8px 0 10px;
+  font-size: 16px;
+}
+
+.week-section-title.next {
+  margin-top: 20px;
+  color: var(--muted);
+}
+
+.week-slot {
+  min-height: 68px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 9px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.week-slot.drag-over {
+  border: 2px dashed var(--green);
+  background: var(--green2);
+}
+
+.week-slot.empty-slot {
+  color: var(--muted);
+}
+
+.meal-drag {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  background: #eef3f5;
+  border-radius: 10px;
+  padding: 8px 7px;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.meal-drag:active {
+  cursor: grabbing;
+  background: var(--green2);
+  color: var(--green);
+}
+
+.meal-card.dragging {
+  opacity: 0.5;
+}
+
+.meal-open {
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 4px 6px;
+}
+
+.meal-open:hover {
+  background: #f2f6f4;
+}
+
+.cook-recipe h4 {
+  margin: 14px 0 8px;
+}
+
+.cook-recipe ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.cook-recipe li {
+  margin: 6px 0;
+}
+
+.cook-method {
+  white-space: pre-line;
+  line-height: 1.55;
+  background: #f7f9fa;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.recipe-view ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.recipe-view li {
+  margin: 6px 0;
+}
+
+.recipe-method {
+  white-space: pre-line;
+  line-height: 1.55;
+  background: #f7f9fa;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.ingredient-line {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr 0.8fr 1.4fr auto;
+  gap: 8px;
+  align-items: end;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 700px) {
+  .ingredient-line {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ingredient-line .wide {
+    grid-column: 1/-1;
+  }
+}
+
+.stock-category {
+  margin: 18px 0 8px;
+  font-size: 17px;
+  border-bottom: 2px solid var(--green2);
+  padding-bottom: 7px;
+}
+
+.stock-toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.stock-toolbar input,
+.stock-toolbar select {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  background: #fff;
+}
+
+.stock-toolbar input {
+  flex: 1;
+  min-width: 180px;
+}
+
+.category-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.category-card label {
+  margin-bottom: 6px;
+}
+
+.category-name-input {
+  width: 100%;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.category-meta {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 8px 0 10px;
+}
+
+.category-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.category-actions .btn {
+  flex: 1;
+  min-width: 120px;
+}
+
+@media (max-width: 520px) {
+  .category-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .category-actions .btn {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .formgrid {
+    grid-template-columns: 1fr;
+  }
+
+  .formgrid .full {
+    grid-column: auto;
+  }
+
+  main {
+    padding: 12px;
+  }
+}
+
+/* Kookchecklist v1.37.0b • Ontwikkeling-stap4.2 */
 .cook-check-title {
   display: flex;
   align-items: flex-start;
@@ -840,7 +844,7 @@
 .cook-session-done .cook-method,
 .cook-session-done ul,
 .cook-session-done .itemmeta {
-  opacity: .62;
+  opacity: 0.62;
 }
 
 /* Koken stap 4.3: opgeslagen status en voortgang */
@@ -867,5 +871,5 @@
   height: 100%;
   border-radius: inherit;
   background: var(--green);
-  transition: width .2s ease;
+  transition: width 0.2s ease;
 }
