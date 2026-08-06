@@ -121,6 +121,7 @@ function renderShopping() {
   class="shopping-store-group ${collapsed ? "is-collapsed" : ""}"
   data-store="${esc(store)}"
 >
+
   <button
     type="button"
     class="shopping-store-heading"
