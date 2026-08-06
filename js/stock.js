@@ -2,7 +2,7 @@
 =====================================
 Gezinsplanner
 Bestand : core.js
-Versie  : v1.36
+Versie  : vV1.37.0C
 Laatst gewijzigd : 06-08-2026
 
 Functie :
@@ -212,9 +212,7 @@ function setSimpleStatus(id, status) {
     (stockId) => stockId !== item.id,
   );
 
-  const linkedItems = state.shopping.filter(
-    (x) => x.sourceStockId === item.id,
-  );
+  const linkedItems = state.shopping.filter((x) => x.sourceStockId === item.id);
 
   if (status === "Aanvullen" && !linkedItems.length) {
     const buyCount = Number(item.buyCount) || 1;
@@ -238,9 +236,7 @@ function setSimpleStatus(id, status) {
   }
 
   if (status === "Voldoende" && linkedItems.length) {
-    state.shopping = state.shopping.filter(
-      (x) => x.sourceStockId !== item.id,
-    );
+    state.shopping = state.shopping.filter((x) => x.sourceStockId !== item.id);
   }
 
   save();
