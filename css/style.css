@@ -741,31 +741,38 @@ textarea {
 .category-card {
   background: #fff;
   border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 14px;
-  margin-bottom: 12px;
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
 }
 
 .category-card label {
-  margin-bottom: 6px;
+  display: none;
 }
 
 .category-name-input {
   width: 100%;
   font-size: 16px;
   font-weight: 700;
+  margin-bottom: 4px;
 }
 
 .category-meta {
   color: var(--muted);
-  font-size: 13px;
-  margin: 8px 0 10px;
+  font-size: 12px;
+  margin: 2px 0 8px;
 }
 
 .category-actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.category-actions .btn {
+  padding: 10px 14px;
+  min-height: 42px;
 }
 
 .category-actions .btn {
