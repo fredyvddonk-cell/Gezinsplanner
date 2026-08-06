@@ -983,3 +983,53 @@ button.shopping-store-heading {
 .shopping-store-group.is-collapsed .shopping-store-items {
   display: none;
 }
+
+
+/* Boodschappen 1.37.2-stap2: groepering per winkel */
+.shopping-store-group {
+  margin-top: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--card);
+}
+
+.shopping-store-group:first-child {
+  margin-top: 0;
+}
+
+.shopping-store-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  background: #f7f9f9;
+}
+
+.shopping-store-heading h3 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.shopping-store-count {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.shopping-store-items {
+  padding: 0 14px;
+}
+
+@media(max-width:520px) {
+  .shopping-store-heading {
+    align-items: flex-start;
+  }
+
+  .shopping-store-items {
+    padding: 0 10px;
+  }
+}
