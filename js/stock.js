@@ -155,6 +155,16 @@ function setAllSimpleStock(status) {
 
   simpleItems.forEach((item) => {
     item.simpleStatus = status;
+
+    if (status === "Aanvullen") {
+      state.suppressedStockShopping = state.suppressedStockShopping.filter(
+        (stockId) => stockId !== item.id,
+      );
+    } else {
+      state.suppressedStockShopping = state.suppressedStockShopping.filter(
+        (stockId) => stockId !== item.id,
+      );
+    }
     const existing = state.shopping.find(
       (x) => x.sourceStockId === item.id && !x.done,
     );
@@ -187,6 +197,12 @@ function setSimpleStatus(id, status) {
   if (!item) return;
 
   item.simpleStatus = status;
+
+  // Een bewuste nieuwe statuskeuze maakt een eerdere verwijdering ongedaan.
+  state.suppressedStockShopping = state.suppressedStockShopping.filter(
+    (stockId) => stockId !== item.id,
+  );
+
   const existing = state.shopping.find(
     (x) => x.sourceStockId === item.id && !x.done,
   );
@@ -369,6 +385,18 @@ function syncAllStockToHutsel(doSave = true) {
   if (doSave) save();
 }
 function removeItem(type, id) {
+  if (type === "shopping") {
+    const item = state.shopping.find((x) => x.id === id);
+
+    // Onthoud dat een automatisch voorraadproduct bewust is verwijderd.
+    // Daardoor zet de synchronisatie het niet direct terug.
+    if (item?.sourceStockId) {
+      if (!state.suppressedStockShopping.includes(item.sourceStockId)) {
+        state.suppressedStockShopping.push(item.sourceStockId);
+      }
+    }
+  }
+
   state[type] = state[type].filter((x) => x.id !== id);
   save();
 }

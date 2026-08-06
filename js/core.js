@@ -118,8 +118,16 @@ function syncLowStockShopping() {
     const existing = state.shopping.find(
       (x) => x.sourceStockId === item.id && !x.done,
     );
+    const isSuppressed = state.suppressedStockShopping.includes(item.id);
 
-    if (isLow && !existing) {
+    // Zodra de voorraad weer voldoende is, vervalt een eerdere bewuste verwijdering.
+    if (!isLow && isSuppressed) {
+      state.suppressedStockShopping = state.suppressedStockShopping.filter(
+        (stockId) => stockId !== item.id,
+      );
+    }
+
+    if (isLow && !existing && !isSuppressed) {
       const buyCount = Number(item.buyCount) || 1;
       const packageText = item.packageType || "verpakking";
       state.shopping.push({
