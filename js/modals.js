@@ -2,7 +2,7 @@
 =====================================
 Gezinsplanner
 Bestand : core.js
-Versie  : vV1.37.0C
+Versie  : v1.37.2-stap1
 Laatst gewijzigd : 06-08-2026
 
 Functie :
@@ -116,6 +116,10 @@ function openModal(type, editData = null) {
   <div class="full"><label>Product</label><input name="name" required placeholder="Bijv. rijst"></div>
 
   <div class="full"><label>Categorie</label><select name="category">${categoryOptions(editData?.category || "Overig")}</select></div>
+
+  <div class="full"><label>Standaardwinkel</label><select name="store">
+    <option>Picnic</option><option>Jumbo</option><option>AH</option><option>Lidl</option><option>Aldi</option><option>Overig</option>
+  </select></div>
 
   <div class="full"><label>Voorraadtype</label><select name="stockType" id="stockTypeSelect">
     <option value="simple">Alleen aanvullen</option>
@@ -344,6 +348,7 @@ function openModal(type, editData = null) {
         id: editData?.id || id,
         name: data.name,
         category: data.category || "Overig",
+        store: data.store || editData?.store || "Picnic",
         stockType: data.stockType || "exact",
         simpleStatus: editData?.simpleStatus || "Voldoende",
         packageType: data.packageType || "",

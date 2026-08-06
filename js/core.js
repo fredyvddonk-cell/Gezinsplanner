@@ -128,7 +128,7 @@ function syncLowStockShopping() {
         state.shopping.push({
           id: Date.now() + Math.floor(Math.random() * 1000),
           name: `${item.name} — ${buyCount} ${packageText}${buyCount === 1 ? "" : "(en)"}`,
-          store: "Picnic",
+          store: item.store || "Picnic",
           priority: "Binnenkort",
           person: "Fredy",
           done: false,

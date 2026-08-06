@@ -2,7 +2,7 @@
 =====================================
 Gezinsplanner
 Bestand : core.js
-Versie  : vV1.37.0C
+Versie  : v1.36
 Laatst gewijzigd : 06-08-2026
 
 Functie :

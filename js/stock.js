@@ -2,7 +2,7 @@
 =====================================
 Gezinsplanner
 Bestand : core.js
-Versie  : vV1.37.0C
+Versie  : v1.37.2-stap1
 Laatst gewijzigd : 06-08-2026
 
 Functie :
@@ -175,7 +175,7 @@ function setAllSimpleStock(status) {
       state.shopping.push({
         id: Date.now() + Math.floor(Math.random() * 1000000),
         name: `${item.name} — ${buyCount} ${packageText}${buyCount === 1 ? "" : "(en)"}`,
-        store: "Picnic",
+        store: item.store || "Picnic",
         priority: "Binnenkort",
         person: "Fredy",
         done: false,
@@ -212,7 +212,9 @@ function setSimpleStatus(id, status) {
     (stockId) => stockId !== item.id,
   );
 
-  const linkedItems = state.shopping.filter((x) => x.sourceStockId === item.id);
+  const linkedItems = state.shopping.filter(
+    (x) => x.sourceStockId === item.id,
+  );
 
   if (status === "Aanvullen" && !linkedItems.length) {
     const buyCount = Number(item.buyCount) || 1;
@@ -220,7 +222,7 @@ function setSimpleStatus(id, status) {
     state.shopping.push({
       id: Date.now() + Math.floor(Math.random() * 1000),
       name: `${item.name} — ${buyCount} ${packageText}${buyCount === 1 ? "" : "(en)"}`,
-      store: "Picnic",
+      store: item.store || "Picnic",
       priority: "Binnenkort",
       person: "Fredy",
       done: false,
@@ -236,7 +238,9 @@ function setSimpleStatus(id, status) {
   }
 
   if (status === "Voldoende" && linkedItems.length) {
-    state.shopping = state.shopping.filter((x) => x.sourceStockId !== item.id);
+    state.shopping = state.shopping.filter(
+      (x) => x.sourceStockId !== item.id,
+    );
   }
 
   save();

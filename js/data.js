@@ -2,7 +2,7 @@
 =====================================
 Gezinsplanner
 Bestand : core.js
-Versie  : v1.37.1
+Versie  : v1.37.2-stap1
 Laatst gewijzigd : 06-08-2026
 
 Functie :
@@ -2075,6 +2075,11 @@ function loadSavedState() {
 let state = loadSavedState();
 
 if (!Array.isArray(state.recipes)) state.recipes = [];
+if (!Array.isArray(state.stock)) state.stock = [];
+state.stock.forEach((item) => {
+  if (!item.store) item.store = "Picnic";
+});
+
 if (!Array.isArray(state.shopping)) state.shopping = [];
 
 state.shopping.forEach((item) => {
