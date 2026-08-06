@@ -165,11 +165,11 @@ function setAllSimpleStock(status) {
         (stockId) => stockId !== item.id,
       );
     }
-    const existing = state.shopping.find(
-      (x) => x.sourceStockId === item.id && !x.done,
+    const linkedItems = state.shopping.filter(
+      (x) => x.sourceStockId === item.id,
     );
 
-    if (status === "Aanvullen" && !existing) {
+    if (status === "Aanvullen" && !linkedItems.length) {
       const buyCount = Number(item.buyCount) || 1;
       const packageText = item.packageType || "verpakking";
       state.shopping.push({
@@ -183,8 +183,17 @@ function setAllSimpleStock(status) {
       });
     }
 
-    if (status === "Voldoende" && existing) {
-      state.shopping = state.shopping.filter((x) => x.id !== existing.id);
+    if (status === "Aanvullen" && linkedItems.length > 1) {
+      const keeper = linkedItems.find((x) => !x.done) || linkedItems[0];
+      state.shopping = state.shopping.filter(
+        (x) => x.sourceStockId !== item.id || x.id === keeper.id,
+      );
+    }
+
+    if (status === "Voldoende" && linkedItems.length) {
+      state.shopping = state.shopping.filter(
+        (x) => x.sourceStockId !== item.id,
+      );
     }
   });
 
@@ -203,11 +212,11 @@ function setSimpleStatus(id, status) {
     (stockId) => stockId !== item.id,
   );
 
-  const existing = state.shopping.find(
-    (x) => x.sourceStockId === item.id && !x.done,
+  const linkedItems = state.shopping.filter(
+    (x) => x.sourceStockId === item.id,
   );
 
-  if (status === "Aanvullen" && !existing) {
+  if (status === "Aanvullen" && !linkedItems.length) {
     const buyCount = Number(item.buyCount) || 1;
     const packageText = item.packageType || "verpakking";
     state.shopping.push({
@@ -221,8 +230,17 @@ function setSimpleStatus(id, status) {
     });
   }
 
-  if (status === "Voldoende" && existing) {
-    state.shopping = state.shopping.filter((x) => x.id !== existing.id);
+  if (status === "Aanvullen" && linkedItems.length > 1) {
+    const keeper = linkedItems.find((x) => !x.done) || linkedItems[0];
+    state.shopping = state.shopping.filter(
+      (x) => x.sourceStockId !== item.id || x.id === keeper.id,
+    );
+  }
+
+  if (status === "Voldoende" && linkedItems.length) {
+    state.shopping = state.shopping.filter(
+      (x) => x.sourceStockId !== item.id,
+    );
   }
 
   save();

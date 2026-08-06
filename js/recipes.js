@@ -217,10 +217,6 @@ function addRecipeIngredientsToShopping(recipeId) {
   );
 }
 
-save();
-closeModal();
-go("boodschappen");
-
 function planRecipe(id) {
   const recipe = state.recipes.find((r) => String(r.id) === String(id));
   if (!recipe) {

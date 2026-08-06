@@ -2,7 +2,7 @@
 =====================================
 Gezinsplanner
 Bestand : core.js
-Versie  : v1.36
+Versie  : v1.37.1
 Laatst gewijzigd : 06-08-2026
 
 Functie :
@@ -11,8 +11,8 @@ Functie :
 - Algemene functies
 
 Wijzigingen:
-- Code opgesplitst
-- Backup-opslag toegevoegd
+- Knop Aankopen verwerken toegevoegd
+- Afvinken en verwerken van aankopen gescheiden
 =====================================
 */
 
@@ -115,63 +115,101 @@ function toggleShopping(id) {
   const item = state.shopping.find((x) => x.id === id);
   if (!item) return;
 
-  // Een automatisch toegevoegd voorraadproduct is gekocht.
-  if (item.sourceStockId) {
-    const stock = state.stock.find((x) => x.id === item.sourceStockId);
-
-    if (stock && stock.stockType === "exact") {
-      const packages = Number(stock.buyCount) || 1;
-      const perPackage = Number(stock.packageContent) || 0;
-      const added = packages * perPackage;
-
-      if (added > 0) {
-        const current =
-          stock.currentAmount === "" || stock.currentAmount === null
-            ? 0
-            : Number(stock.currentAmount);
-        stock.currentAmount = current + added;
-      }
-
-      state.shopping = state.shopping.filter((x) => x.id !== id);
-      save();
-      return;
-    }
-
-    if (stock && stock.stockType === "simple") {
-      stock.simpleStatus = "Voldoende";
-      state.shopping = state.shopping.filter((x) => x.id !== id);
-      save();
-      return;
-    }
-  }
-
-  if (item.createStockAfterPurchase) {
-    const exists = state.stock.some(
-      (x) => x.name.trim().toLowerCase() === item.name.trim().toLowerCase(),
-    );
-    if (!exists) {
-      state.stock.push({
-        id: Date.now() + Math.floor(Math.random() * 1000),
-        name: item.name,
-        category: "Overig",
-        stockType: "simple",
-        simpleStatus: "Aanvullen",
-        packageType: "",
-        packageContent: "",
-        unit: "",
-        currentAmount: "",
-        minimum: "",
-        toHutsel: false,
-        buyCount: "",
-        amount: "",
-      });
-    }
-    state.shopping = state.shopping.filter((x) => x.id !== id);
-    save();
-    return;
-  }
-
-  // Gewone boodschappen blijven als afgevinkt zichtbaar.
+  // In versie 1.37.1 betekent afvinken alleen: dit product is gekocht.
+  // De voorraad wordt pas bijgewerkt via Aankopen verwerken.
   item.done = !item.done;
   save();
 }
+
+function processPurchasedItems() {
+  const purchased = state.shopping.filter((item) => item.done);
+
+  if (!purchased.length) {
+    alert("Er zijn nog geen boodschappen afgevinkt.");
+    return;
+  }
+
+  const confirmed = confirm(
+    `Wil je ${purchased.length} afgevinkte ${purchased.length === 1 ? "boodschap" : "boodschappen"} verwerken?`,
+  );
+
+  if (!confirmed) return;
+
+  let stockUpdated = 0;
+  let recipeItemsRemoved = 0;
+  let manualItemsRemoved = 0;
+  let newStockItems = 0;
+
+  purchased.forEach((item) => {
+    if (item.sourceStockId) {
+      const stock = state.stock.find(
+        (stockItem) => String(stockItem.id) === String(item.sourceStockId),
+      );
+
+      if (stock) {
+        if (stock.stockType === "exact") {
+          const packages = Number(stock.buyCount) || 1;
+          const perPackage = Number(stock.packageContent) || 0;
+          const added = packages * perPackage;
+          const current = Number(stock.currentAmount) || 0;
+
+          if (added > 0) stock.currentAmount = current + added;
+        } else if (stock.stockType === "simple") {
+          stock.simpleStatus = "Voldoende";
+        }
+
+        stockUpdated += 1;
+      }
+    } else if (item.createStockAfterPurchase) {
+      const exists = state.stock.some(
+        (stockItem) =>
+          stockItem.name.trim().toLowerCase() ===
+          item.name.trim().toLowerCase(),
+      );
+
+      if (!exists) {
+        state.stock.push({
+          id: Date.now() + Math.floor(Math.random() * 1000),
+          name: item.name,
+          category: "Overig",
+          stockType: "simple",
+          simpleStatus: "Voldoende",
+          packageType: "",
+          packageContent: "",
+          unit: "",
+          currentAmount: "",
+          minimum: "",
+          toHutsel: false,
+          buyCount: "",
+          amount: "",
+        });
+        newStockItems += 1;
+      }
+    }
+
+    if (item.sourceRecipeId || item.sourceRecipeName || item.dish) {
+      recipeItemsRemoved += 1;
+    } else if (!item.sourceStockId && !item.createStockAfterPurchase) {
+      manualItemsRemoved += 1;
+    }
+  });
+
+  const purchasedIds = new Set(purchased.map((item) => String(item.id)));
+  state.shopping = state.shopping.filter(
+    (item) => !purchasedIds.has(String(item.id)),
+  );
+
+  save();
+
+  const details = [
+    `${purchased.length} ${purchased.length === 1 ? "boodschap verwerkt" : "boodschappen verwerkt"}.`,
+  ];
+
+  if (stockUpdated) details.push(`${stockUpdated} voorraadproduct(en) bijgewerkt.`);
+  if (newStockItems) details.push(`${newStockItems} nieuw(e) voorraadproduct(en) toegevoegd.`);
+  if (recipeItemsRemoved) details.push(`${recipeItemsRemoved} receptingrediënt(en) verwijderd.`);
+  if (manualItemsRemoved) details.push(`${manualItemsRemoved} losse boodschap(pen) verwijderd.`);
+
+  alert(details.join("\n"));
+}
+

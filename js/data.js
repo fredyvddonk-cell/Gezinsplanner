@@ -2,7 +2,7 @@
 =====================================
 Gezinsplanner
 Bestand : core.js
-Versie  : v1.36
+Versie  : v1.37.0
 Laatst gewijzigd : 06-08-2026
 
 Functie :
@@ -2076,8 +2076,7 @@ let state = loadSavedState();
 
 if (!Array.isArray(state.recipes)) state.recipes = [];
 if (!Array.isArray(state.shopping)) state.shopping = [];
-if (!Array.isArray(state.suppressedStockShopping))
-  state.suppressedStockShopping = [];
+if (!Array.isArray(state.suppressedStockShopping)) state.suppressedStockShopping = [];
 
 state.shopping.forEach((item) => {
   if (item.quantity === undefined) item.quantity = 1;
@@ -2091,7 +2090,7 @@ if (!Array.isArray(state.hutsel)) state.hutsel = [];
 if (!Array.isArray(state.stock))
   state.stock = stockCatalog.map((x) => ({ ...x }));
 
-// Vaste voorbeeldboodschappen worden niet meer automatisch teruggezet.
+
 defaultRecipes.forEach((recipe) => {
   const exists = state.recipes.some(
     (r) =>

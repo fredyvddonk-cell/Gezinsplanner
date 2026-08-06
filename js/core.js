@@ -2,7 +2,7 @@
 =====================================
 Gezinsplanner
 Bestand : core.js
-Versie  : v1.36
+Versie  : v1.37.0a
 Laatst gewijzigd : 06-08-2026
 
 Functie :
@@ -115,34 +115,35 @@ function syncLowStockShopping() {
     if (!currentFilled || !minimumFilled) return;
 
     const isLow = Number(item.currentAmount) < Number(item.minimum);
-    const existing = state.shopping.find(
-      (x) => x.sourceStockId === item.id && !x.done,
+    const linkedItems = state.shopping.filter(
+      (x) => x.sourceStockId === item.id,
     );
-    const isSuppressed = state.suppressedStockShopping.includes(item.id);
 
-    // Zodra de voorraad weer voldoende is, vervalt een eerdere bewuste verwijdering.
-    if (!isLow && isSuppressed) {
-      state.suppressedStockShopping = state.suppressedStockShopping.filter(
-        (stockId) => stockId !== item.id,
+    if (isLow) {
+      // Eén voorraadproduct mag maximaal één keer op de boodschappenlijst staan.
+      // Een afgevinkte regel telt ook als bestaande regel en mag dus geen duplicaat veroorzaken.
+      if (!linkedItems.length) {
+        const buyCount = Number(item.buyCount) || 1;
+        const packageText = item.packageType || "verpakking";
+        state.shopping.push({
+          id: Date.now() + Math.floor(Math.random() * 1000),
+          name: `${item.name} — ${buyCount} ${packageText}${buyCount === 1 ? "" : "(en)"}`,
+          store: "Picnic",
+          priority: "Binnenkort",
+          person: "Fredy",
+          done: false,
+          sourceStockId: item.id,
+        });
+      } else if (linkedItems.length > 1) {
+        const keeper = linkedItems.find((x) => !x.done) || linkedItems[0];
+        state.shopping = state.shopping.filter(
+          (x) => x.sourceStockId !== item.id || x.id === keeper.id,
+        );
+      }
+    } else if (linkedItems.length) {
+      state.shopping = state.shopping.filter(
+        (x) => x.sourceStockId !== item.id,
       );
-    }
-
-    if (isLow && !existing && !isSuppressed) {
-      const buyCount = Number(item.buyCount) || 1;
-      const packageText = item.packageType || "verpakking";
-      state.shopping.push({
-        id: Date.now() + Math.floor(Math.random() * 1000),
-        name: `${item.name} — ${buyCount} ${packageText}${buyCount === 1 ? "" : "(en)"}`,
-        store: "Picnic",
-        priority: "Binnenkort",
-        person: "Fredy",
-        done: false,
-        sourceStockId: item.id,
-      });
-    }
-
-    if (!isLow && existing) {
-      state.shopping = state.shopping.filter((x) => x.id !== existing.id);
     }
   });
 }
