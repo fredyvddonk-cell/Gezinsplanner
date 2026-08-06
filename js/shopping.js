@@ -1,8 +1,8 @@
 /*
 =====================================
 Gezinsplanner
-Bestand : core.js
-Versie  : v1.37.1
+Bestand : shopping.js
+Versie  : v1.37.2-stap2
 Laatst gewijzigd : 06-08-2026
 
 Functie :
@@ -13,8 +13,41 @@ Functie :
 Wijzigingen:
 - Knop Aankopen verwerken toegevoegd
 - Afvinken en verwerken van aankopen gescheiden
+- Boodschappen gegroepeerd per winkel
 =====================================
 */
+
+const SHOPPING_COLLAPSED_STORES_KEY = "gezinsplanner_shopping_collapsed_stores";
+
+function getCollapsedShoppingStores() {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem(SHOPPING_COLLAPSED_STORES_KEY) || "[]",
+    );
+
+    return Array.isArray(saved) ? saved : [];
+  } catch {
+    return [];
+  }
+}
+
+function toggleShoppingStore(store) {
+  const collapsedStores = getCollapsedShoppingStores();
+  const index = collapsedStores.indexOf(store);
+
+  if (index === -1) {
+    collapsedStores.push(store);
+  } else {
+    collapsedStores.splice(index, 1);
+  }
+
+  localStorage.setItem(
+    SHOPPING_COLLAPSED_STORES_KEY,
+    JSON.stringify(collapsedStores),
+  );
+
+  renderShopping();
+}
 
 function renderShopping() {
   const sf = shopFilter.value,
@@ -22,8 +55,36 @@ function renderShopping() {
   const arr = state.shopping.filter(
     (x) => (!sf || x.store === sf) && (!pf || x.priority === pf),
   );
-  shoppingList.innerHTML = arr.length
-    ? arr
+
+  if (!arr.length) {
+    shoppingList.innerHTML = `<div class="empty">Geen producten gevonden.</div>`;
+    return;
+  }
+
+  const storeOrder = ["Picnic", "Jumbo", "AH", "Lidl", "Aldi", "Overig"];
+  const storeLabel = (store) =>
+    store === "AH" ? "Albert Heijn" : store || "Overig";
+  const storeRank = (store) => {
+    const index = storeOrder.indexOf(store || "Overig");
+    return index === -1 ? storeOrder.length : index;
+  };
+
+  const grouped = arr.reduce((groups, item) => {
+    const store = item.store || "Overig";
+    if (!groups[store]) groups[store] = [];
+    groups[store].push(item);
+    return groups;
+  }, {});
+
+  const stores = Object.keys(grouped).sort((a, b) => {
+    const rankDifference = storeRank(a) - storeRank(b);
+    return rankDifference || storeLabel(a).localeCompare(storeLabel(b), "nl");
+  });
+
+  shoppingList.innerHTML = stores
+    .map((store) => {
+      const items = grouped[store];
+      const rows = items
         .map(
           (
             x,
@@ -37,7 +98,7 @@ function renderShopping() {
   class="pill"
   onclick="cycleShoppingStore(${x.id})"
 >
-  ${esc(x.store)}
+  ${esc(x.store || "Overig")}
 </button><span class="pill">${esc(x.person)}</span>${x.sourceStockId ? '<span class="pill">Voorraad gekoppeld</span>' : ""}${x.createStockAfterPurchase ? '<span class="pill">Nieuw naar voorraad</span>' : ""}${
             x.sourceRecipeName
               ? `<button
@@ -52,9 +113,39 @@ function renderShopping() {
                 : ""
           }</div></div><span class="tag ${prioClass(x.priority)}">${esc(x.priority)}</span><button class="btn secondary" onclick="editShoppingStore(${x.id})">Wijzig winkel</button><button class="btn danger" onclick="removeItem('shopping',${x.id})">×</button></div>`,
         )
-        .join("")
-    : `<div class="empty">Geen producten gevonden.</div>`;
+        .join("");
+
+      const collapsed = getCollapsedShoppingStores().includes(store);
+
+      return `<section
+  class="shopping-store-group ${collapsed ? "is-collapsed" : ""}"
+  data-store="${esc(store)}"
+>
+  <button
+    type="button"
+    class="shopping-store-heading"
+    onclick="toggleShoppingStore('${esc(store)}')"
+    aria-expanded="${collapsed ? "false" : "true"}"
+  >
+    <span class="shopping-store-heading-title">
+      <span class="shopping-store-arrow">
+        ${collapsed ? "▶" : "▼"}
+      </span>
+
+      <span>${esc(storeLabel(store))}</span>
+    </span>
+
+    <span class="shopping-store-count">
+      ${items.length} ${items.length === 1 ? "product" : "producten"}
+    </span>
+  </button>
+
+  <div class="shopping-store-items">${rows}</div>
+</section>`;
+    })
+    .join("");
 }
+
 function openRecipeFromShopping(recipeId) {
   const recipe = state.recipes.find((r) => String(r.id) === String(recipeId));
 
@@ -205,11 +296,14 @@ function processPurchasedItems() {
     `${purchased.length} ${purchased.length === 1 ? "boodschap verwerkt" : "boodschappen verwerkt"}.`,
   ];
 
-  if (stockUpdated) details.push(`${stockUpdated} voorraadproduct(en) bijgewerkt.`);
-  if (newStockItems) details.push(`${newStockItems} nieuw(e) voorraadproduct(en) toegevoegd.`);
-  if (recipeItemsRemoved) details.push(`${recipeItemsRemoved} receptingrediënt(en) verwijderd.`);
-  if (manualItemsRemoved) details.push(`${manualItemsRemoved} losse boodschap(pen) verwijderd.`);
+  if (stockUpdated)
+    details.push(`${stockUpdated} voorraadproduct(en) bijgewerkt.`);
+  if (newStockItems)
+    details.push(`${newStockItems} nieuw(e) voorraadproduct(en) toegevoegd.`);
+  if (recipeItemsRemoved)
+    details.push(`${recipeItemsRemoved} receptingrediënt(en) verwijderd.`);
+  if (manualItemsRemoved)
+    details.push(`${manualItemsRemoved} losse boodschap(pen) verwijderd.`);
 
   alert(details.join("\n"));
 }
-
