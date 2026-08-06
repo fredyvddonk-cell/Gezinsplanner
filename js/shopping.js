@@ -93,13 +93,9 @@ function renderShopping() {
           shoppingAmountText(x)
             ? `<div class="muted">${esc(shoppingAmountText(x))}</div>`
             : ""
-        }<div class="itemmeta"><button
-  type="button"
-  class="pill"
-  onclick="cycleShoppingStore(${x.id})"
->
+        }<div class="itemmeta"><span class="pill">
   ${esc(x.store || "Overig")}
-</button><span class="pill">${esc(x.person)}</span>${x.sourceStockId ? '<span class="pill">Voorraad gekoppeld</span>' : ""}${x.createStockAfterPurchase ? '<span class="pill">Nieuw naar voorraad</span>' : ""}${
+</span><span class="pill">${esc(x.person)}</span>${x.sourceStockId ? '<span class="pill">Voorraad gekoppeld</span>' : ""}${x.createStockAfterPurchase ? '<span class="pill">Nieuw naar voorraad</span>' : ""}${
             x.sourceRecipeName
               ? `<button
   type="button"
@@ -191,8 +187,9 @@ function cycleShoppingStore(id) {
   const nextIndex =
     currentIndex === -1 ? 0 : (currentIndex + 1) % stores.length;
 
-  item.store = stores[nextIndex];
+  const nextStore = stores[nextIndex];
 
+  item.store = nextStore;
   save();
 }
 shopFilter.onchange = renderShopping;
