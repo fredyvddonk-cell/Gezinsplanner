@@ -49,25 +49,9 @@ function toggleShoppingStore(store) {
   renderShopping();
 }
 
-function shoppingCategory(item) {
-  const directCategory = (item.category || "").trim();
-  if (directCategory) return directCategory;
-
-  if (item.sourceStockId) {
-    const stockItem = state.stock.find(
-      (stock) => String(stock.id) === String(item.sourceStockId),
-    );
-
-    if (stockItem?.category) return stockItem.category;
-  }
-
-  return "Overig";
-}
-
 function renderShopping() {
   const sf = shopFilter.value,
     pf = prioFilter.value;
-
   const arr = state.shopping.filter(
     (x) => (!sf || x.store === sf) && (!pf || x.priority === pf),
   );
@@ -78,190 +62,83 @@ function renderShopping() {
   }
 
   const storeOrder = ["Picnic", "Jumbo", "AH", "Lidl", "Aldi", "Overig"];
-
   const storeLabel = (store) =>
     store === "AH" ? "Albert Heijn" : store || "Overig";
-
   const storeRank = (store) => {
     const index = storeOrder.indexOf(store || "Overig");
     return index === -1 ? storeOrder.length : index;
   };
 
-  const categoryOrder = (state.categories || []).filter(
-    (category) => category !== "Overig",
-  );
-
-  const categoryRank = (category) => {
-    if (category === "Overig") return categoryOrder.length + 1;
-
-    const index = categoryOrder.indexOf(category);
-    return index === -1 ? categoryOrder.length : index;
-  };
-
-  const groupedByStore = arr.reduce((groups, item) => {
+  const grouped = arr.reduce((groups, item) => {
     const store = item.store || "Overig";
-
     if (!groups[store]) groups[store] = [];
-
     groups[store].push(item);
-
     return groups;
   }, {});
 
-  const stores = Object.keys(groupedByStore).sort((a, b) => {
+  const stores = Object.keys(grouped).sort((a, b) => {
     const rankDifference = storeRank(a) - storeRank(b);
-
-    return (
-      rankDifference || storeLabel(a).localeCompare(storeLabel(b), "nl")
-    );
+    return rankDifference || storeLabel(a).localeCompare(storeLabel(b), "nl");
   });
-
-  const renderShoppingRow = (x) => `<div class="row">
-    <input
-      class="check"
-      type="checkbox"
-      ${x.done ? "checked" : ""}
-      onchange="toggleShopping(${x.id})"
-    >
-
-    <div class="grow">
-      <b style="${x.done ? "text-decoration:line-through;color:#9aa5ad" : ""}">
-        ${esc(x.name)}
-      </b>
-
-      ${
-        shoppingAmountText(x)
-          ? `<div class="muted">${esc(shoppingAmountText(x))}</div>`
-          : ""
-      }
-
-      <div class="itemmeta">
-        <span class="pill">${esc(x.store || "Overig")}</span>
-
-        <span class="pill">${esc(x.person)}</span>
-
-        ${
-          x.sourceStockId
-            ? '<span class="pill">Voorraad gekoppeld</span>'
-            : ""
-        }
-
-        ${
-          x.createStockAfterPurchase
-            ? '<span class="pill">Nieuw naar voorraad</span>'
-            : ""
-        }
-
-        ${
-          x.sourceRecipeName
-            ? `<button
-                type="button"
-                class="pill"
-                onclick="openRecipeFromShopping(${x.sourceRecipeId})"
-              >
-                🍽️ ${esc(x.sourceRecipeName)}
-              </button>`
-            : x.dish
-              ? `<span class="pill">🍽️ ${esc(x.dish)}</span>`
-              : ""
-        }
-      </div>
-    </div>
-
-    <span class="tag ${prioClass(x.priority)}">
-      ${esc(x.priority)}
-    </span>
-
-    <button
-      class="btn secondary"
-      onclick="editShoppingStore(${x.id})"
-    >
-      Wijzig winkel
-    </button>
-
-    <button
-      class="btn danger"
-      onclick="removeItem('shopping',${x.id})"
-    >
-      ×
-    </button>
-  </div>`;
 
   shoppingList.innerHTML = stores
     .map((store) => {
-      const items = groupedByStore[store];
-
-      const groupedByCategory = items.reduce((groups, item) => {
-        const category = shoppingCategory(item);
-
-        if (!groups[category]) groups[category] = [];
-
-        groups[category].push(item);
-
-        return groups;
-      }, {});
-
-      const categories = Object.keys(groupedByCategory).sort((a, b) => {
-        const rankDifference = categoryRank(a) - categoryRank(b);
-
-        return rankDifference || a.localeCompare(b, "nl");
-      });
-
-      const categorySections = categories
-        .map((category) => {
-          const categoryItems = groupedByCategory[category]
-            .slice()
-            .sort((a, b) => a.name.localeCompare(b.name, "nl"));
-
-          const rows = categoryItems.map(renderShoppingRow).join("");
-
-          return `<section class="shopping-category-group">
-            <div class="shopping-category-heading">
-              <span>${esc(category)}</span>
-
-              <span class="shopping-category-count">
-                ${categoryItems.length}
-                ${categoryItems.length === 1 ? "product" : "producten"}
-              </span>
-            </div>
-
-            <div class="shopping-category-items">
-              ${rows}
-            </div>
-          </section>`;
-        })
+      const items = grouped[store];
+      const rows = items
+        .map(
+          (
+            x,
+          ) => `<div class="row"><input class="check" type="checkbox" ${x.done ? "checked" : ""} onchange="toggleShopping(${x.id})"><div class="grow"><b style="${x.done ? "text-decoration:line-through;color:#9aa5ad" : ""}">${esc(x.name)}</b>
+        ${
+          shoppingAmountText(x)
+            ? `<div class="muted">${esc(shoppingAmountText(x))}</div>`
+            : ""
+        }<div class="itemmeta"><span class="pill">
+  ${esc(x.store || "Overig")}
+</span><span class="pill">${esc(x.person)}</span>${x.sourceStockId ? '<span class="pill">Voorraad gekoppeld</span>' : ""}${x.createStockAfterPurchase ? '<span class="pill">Nieuw naar voorraad</span>' : ""}${
+            x.sourceRecipeName
+              ? `<button
+  type="button"
+  class="pill"
+  onclick="openRecipeFromShopping(${x.sourceRecipeId})"
+>
+  🍽️ ${esc(x.sourceRecipeName)}
+</button>`
+              : x.dish
+                ? `<span class="pill">🍽️ ${esc(x.dish)}</span>`
+                : ""
+          }</div></div><span class="tag ${prioClass(x.priority)}">${esc(x.priority)}</span><button class="btn secondary" onclick="editShoppingStore(${x.id})">Wijzig winkel</button><button class="btn danger" onclick="removeItem('shopping',${x.id})">×</button></div>`,
+        )
         .join("");
 
       const collapsed = getCollapsedShoppingStores().includes(store);
 
       return `<section
-        class="shopping-store-group ${collapsed ? "is-collapsed" : ""}"
-        data-store="${esc(store)}"
-      >
-        <button
-          type="button"
-          class="shopping-store-heading"
-          onclick="toggleShoppingStore('${esc(store)}')"
-          aria-expanded="${collapsed ? "false" : "true"}"
-        >
-          <span class="shopping-store-heading-title">
-            <span class="shopping-store-arrow">
-              ${collapsed ? "▶" : "▼"}
-            </span>
+  class="shopping-store-group ${collapsed ? "is-collapsed" : ""}"
+  data-store="${esc(store)}"
+>
 
-            <span>${esc(storeLabel(store))}</span>
-          </span>
+  <button
+    type="button"
+    class="shopping-store-heading"
+    onclick="toggleShoppingStore('${esc(store)}')"
+    aria-expanded="${collapsed ? "false" : "true"}"
+  >
+    <span class="shopping-store-heading-title">
+      <span class="shopping-store-arrow">
+        ${collapsed ? "▶" : "▼"}
+      </span>
 
-          <span class="shopping-store-count">
-            ${items.length}
-            ${items.length === 1 ? "product" : "producten"}
-          </span>
-        </button>
+      <span>${esc(storeLabel(store))}</span>
+    </span>
 
-        <div class="shopping-store-items">
-          ${categorySections}
-        </div>
-      </section>`;
+    <span class="shopping-store-count">
+      ${items.length} ${items.length === 1 ? "product" : "producten"}
+    </span>
+  </button>
+
+  <div class="shopping-store-items">${rows}</div>
+</section>`;
     })
     .join("");
 }
