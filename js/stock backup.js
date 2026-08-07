@@ -1,9 +1,9 @@
 /*
 =====================================
 Gezinsplanner
-Bestand : stock.js
-Versie  : v1.37.4
-Laatst gewijzigd : 07-08-2026
+Bestand : core.js
+Versie  : v1.37.2-stap1
+Laatst gewijzigd : 06-08-2026
 
 Functie :
 - Opslaan van gegevens
@@ -53,13 +53,6 @@ function renderStock() {
     .trim()
     .toLowerCase();
   const category = document.getElementById("stockCategoryFilter")?.value || "";
-  const categoryOrder = (state.categories || []).slice();
-  const categoryRank = (name) => {
-    const normalized = name || "Overig";
-    const index = categoryOrder.indexOf(normalized);
-    return index === -1 ? categoryOrder.length : index;
-  };
-
   const filtered = state.stock
     .filter(
       (x) =>
@@ -68,7 +61,7 @@ function renderStock() {
     )
     .sort(
       (a, b) =>
-        categoryRank(a.category) - categoryRank(b.category) ||
+        (a.category || "Overig").localeCompare(b.category || "Overig", "nl") ||
         a.name.localeCompare(b.name, "nl"),
     );
 
@@ -265,141 +258,31 @@ function setupStockFilters() {
 function renderCategories() {
   const el = document.getElementById("categoryList");
   if (!el) return;
-
-  const categories = (state.categories || []).slice();
-  const orderedCategories = [
-    ...categories.filter((category) => category !== "Overig"),
-    ...(categories.includes("Overig") ? ["Overig"] : []),
-  ];
-
-  if (orderedCategories.join("|") !== categories.join("|")) {
-    state.categories = orderedCategories.slice();
-  }
-
-  el.innerHTML = orderedCategories
+  const categories = (state.categories || [])
+    .slice()
+    .sort((a, b) => a.localeCompare(b, "nl"));
+  el.innerHTML = categories
     .map((category, index) => {
       const count = state.stock.filter(
         (x) => (x.category || "Overig") === category,
       ).length;
       const locked = category === "Overig";
-
-      return `<div
-        class="category-card${locked ? " category-card-locked" : ""}"
-        data-category="${esc(category)}"
-        data-category-index="${index}"
-        data-locked="${locked ? "1" : "0"}"
-      >
-        ${
-          locked
-            ? ""
-            : `<button
-                type="button"
-                class="category-drag-handle"
-                aria-label="Versleep categorie ${esc(category)}"
-                title="Versleep categorie"
-              >☰</button>`
-        }
-
-        <label>Categorie</label>
-        <input
-          id="cat-${index}"
-          class="category-name-input"
-          value="${esc(category)}"
-          ${locked ? "disabled" : ""}
-        >
-
-        <div class="category-meta">${count} product(en) gebruiken deze categorie</div>
-
-        <div class="category-actions">
-          ${
-            locked
-              ? '<button class="btn secondary" disabled>Vaste categorie</button>'
-              : `<button class="btn secondary" onclick="renameCategory('${encodeURIComponent(category)}',${index})">Opslaan</button>
-                 <button class="btn danger" onclick="deleteCategory('${encodeURIComponent(category)}')">Verwijderen</button>`
-          }
-        </div>
-      </div>`;
+      return `<div class="category-card">
+     <label>Categorie</label>
+     <input id="cat-${index}" class="category-name-input" value="${esc(category)}" ${locked ? "disabled" : ""}>
+     <div class="category-meta">${count} product(en) gebruiken deze categorie</div>
+     <div class="category-actions">
+       ${
+         locked
+           ? '<button class="btn secondary" disabled>Vaste categorie</button>'
+           : `<button class="btn secondary" onclick="renameCategory('${encodeURIComponent(category)}',${index})">Opslaan</button>
+            <button class="btn danger" onclick="deleteCategory('${encodeURIComponent(category)}')">Verwijderen</button>`
+       }
+     </div>
+   </div>`;
     })
     .join("");
-
-  setupCategoryDragAndDrop();
 }
-
-let categoryDragState = null;
-
-function setupCategoryDragAndDrop() {
-  const list = document.getElementById("categoryList");
-  if (!list || list.dataset.dragReady === "1") return;
-  list.dataset.dragReady = "1";
-  list.addEventListener("pointerdown", startCategoryDrag);
-}
-
-function startCategoryDrag(event) {
-  const handle = event.target.closest(".category-drag-handle");
-  if (!handle) return;
-
-  const card = handle.closest(".category-card");
-  const list = document.getElementById("categoryList");
-  if (!card || !list || card.dataset.locked === "1") return;
-
-  event.preventDefault();
-  categoryDragState = { pointerId: event.pointerId, card, handle, list };
-  card.classList.add("category-dragging");
-  document.body.classList.add("category-drag-active");
-
-  try { handle.setPointerCapture(event.pointerId); } catch (_) {}
-
-  window.addEventListener("pointermove", moveCategoryDrag, { passive: false });
-  window.addEventListener("pointerup", finishCategoryDrag, { once: true });
-  window.addEventListener("pointercancel", finishCategoryDrag, { once: true });
-}
-
-function moveCategoryDrag(event) {
-  if (!categoryDragState || event.pointerId !== categoryDragState.pointerId) return;
-  event.preventDefault();
-
-  const { card, list } = categoryDragState;
-  const element = document.elementFromPoint(event.clientX, event.clientY);
-  const target = element?.closest(".category-card");
-  if (!target || target === card || !list.contains(target)) return;
-
-  if (target.dataset.locked === "1") {
-    list.insertBefore(card, target);
-    return;
-  }
-
-  const rect = target.getBoundingClientRect();
-  const before = event.clientY < rect.top + rect.height / 2;
-  if (before) list.insertBefore(card, target);
-  else list.insertBefore(card, target.nextSibling);
-}
-
-function finishCategoryDrag(event) {
-  if (!categoryDragState) return;
-  if (event.pointerId !== undefined && event.pointerId !== categoryDragState.pointerId) return;
-
-  const { card, list, handle, pointerId } = categoryDragState;
-  window.removeEventListener("pointermove", moveCategoryDrag);
-  window.removeEventListener("pointerup", finishCategoryDrag);
-  window.removeEventListener("pointercancel", finishCategoryDrag);
-
-  try { handle.releasePointerCapture(pointerId); } catch (_) {}
-
-  card.classList.remove("category-dragging");
-  document.body.classList.remove("category-drag-active");
-
-  const visibleOrder = Array.from(list.querySelectorAll(".category-card"))
-    .map((node) => node.dataset.category)
-    .filter(Boolean);
-  const withoutOverig = visibleOrder.filter((category) => category !== "Overig");
-  state.categories = state.categories.includes("Overig")
-    ? [...withoutOverig, "Overig"]
-    : withoutOverig;
-
-  categoryDragState = null;
-  save();
-}
-
 function setupCategoryManager() {
   const button = document.getElementById("addCategoryButton");
   if (!button || button.dataset.ready === "1") return;
@@ -424,12 +307,7 @@ function addCategory() {
     alert("Deze categorie bestaat al.");
     return;
   }
-  const overigIndex = state.categories.indexOf("Overig");
-  if (overigIndex === -1) {
-    state.categories.push(name);
-  } else {
-    state.categories.splice(overigIndex, 0, name);
-  }
+  state.categories.push(name);
   input.value = "";
   save();
 }

@@ -984,7 +984,6 @@ button.shopping-store-heading {
   display: none;
 }
 
-
 /* Boodschappen 1.37.2-stap2: groepering per winkel */
 .shopping-store-group {
   margin-top: 16px;
@@ -1024,7 +1023,7 @@ button.shopping-store-heading {
   padding: 0 14px;
 }
 
-@media(max-width:520px) {
+@media (max-width: 520px) {
   .shopping-store-heading {
     align-items: flex-start;
   }
@@ -1033,3 +1032,58 @@ button.shopping-store-heading {
     padding: 0 10px;
   }
 }
+
+/* Categorieën slepen - v1.37.4 */
+.category-card {
+  position: relative;
+}
+
+.category-name-input {
+  padding-right: 50px;
+}
+
+.category-drag-handle {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: #eef3f5;
+  color: #52606a;
+  font-size: 21px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.category-drag-handle:active {
+  cursor: grabbing;
+  background: var(--green2);
+  color: var(--green);
+}
+
+.category-card.category-dragging {
+  opacity: 0.58;
+  border: 2px dashed var(--green);
+  box-shadow: 0 8px 20px rgba(25, 40, 55, 0.12);
+}
+
+body.category-drag-active {
+  user-select: none;
+}
+
+body.category-drag-active .category-card:not(.category-dragging) {
+  transition: transform 0.08s ease;
+}
+
+.category-card-locked .category-name-input {
+  padding-right: 11px;
+}
+
